@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Nexus Dashboard
+Name[zh_CN]=Nexus 监控大屏
+Comment=System monitoring dashboard for RK3528
+Comment[zh_CN]=RK3528 本地系统监控大屏
+Exec=/usr/bin/nexusqt --fullscreen
+Icon=nexusqt
+Terminal=false
+Categories=System;Monitor;
+Keywords=monitor;dashboard;system;
+StartupNotify=false

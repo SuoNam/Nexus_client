@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/pages/Page1.qml</file>
+        <file>qml/pages/Page2.qml</file>
+        <file>qml/pages/Page3.qml</file>
+        <file>qml/components/CountdownBanner.qml</file>
+        <file>qml/components/ClockWeatherRow.qml</file>
+        <file>qml/components/WeatherCard.qml</file>
+        <file>qml/components/SystemStatsCard.qml</file>
+        <file>qml/components/NetworkChart.qml</file>
+        <file>qml/components/StatBar.qml</file>
+        <file>qml/components/AddCountdownDialog.qml</file>
+    </qresource>
+</RCC>
