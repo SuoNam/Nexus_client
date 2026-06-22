@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    // Qt6 handles HighDpiScaling natively, no need for the deprecated attribute
     QGuiApplication app(argc, argv);
     app.setApplicationName("Nexus");
     app.setOrganizationName("Nexus");

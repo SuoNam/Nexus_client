@@ -6,19 +6,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-# ── Qt5 依赖 ──────────────────────────────────────────────────
-find_package(Qt5 5.15 REQUIRED COMPONENTS
+# ── Qt6 依赖 ──────────────────────────────────────────────────
+find_package(Qt6 REQUIRED COMPONENTS
     Core Gui Quick Network WebSockets
 )
-find_package(Qt5 OPTIONAL_COMPONENTS SerialPort QUIET)
-if (Qt5SerialPort_FOUND)
-    message(STATUS "Qt5::SerialPort found — 串口唤醒启用")
+find_package(Qt6 OPTIONAL_COMPONENTS SerialPort QUIET)
+if (Qt6SerialPort_FOUND)
+    message(STATUS "Qt6::SerialPort found — 串口唤醒启用")
 else()
-    message(STATUS "Qt5::SerialPort NOT found — 串口唤醒使用 QProcess 兜底")
+    message(STATUS "Qt6::SerialPort NOT found — 串口唤醒使用 QProcess 兜底")
 endif()
 
 # ── 构建目标 ──────────────────────────────────────────────────
-qt5_add_resources(APP_RESOURCES resources.qrc)
+qt6_add_resources(APP_RESOURCES resources.qrc)
 
 add_executable(NexusQt
     main.cpp
@@ -31,10 +31,10 @@ add_executable(NexusQt
 target_include_directories(NexusQt PRIVATE src)
 
 target_link_libraries(NexusQt PRIVATE
-    Qt5::Core Qt5::Gui Qt5::Quick Qt5::Network Qt5::WebSockets
-    $<$<BOOL:${Qt5SerialPort_FOUND}>:Qt5::SerialPort>
+    Qt6::Core Qt6::Gui Qt6::Quick Qt6::Network Qt6::WebSockets
+    $<$<BOOL:${Qt6SerialPort_FOUND}>:Qt6::SerialPort>
 )
-if (Qt5SerialPort_FOUND)
+if (Qt6SerialPort_FOUND)
     target_compile_definitions(NexusQt PRIVATE HAS_SERIAL_PORT)
 endif()
 
@@ -80,13 +80,7 @@ set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "${DEB_ARCH}")
 
 # 运行时依赖（在 Ubuntu/Debian ARM64 上验证过的包名）
 set(CPACK_DEBIAN_PACKAGE_DEPENDS
-    "libqt5quick5 (>= 5.12), \
-libqt5network5 (>= 5.12), \
-libqt5websockets5 (>= 5.12), \
-qml-module-qtquick2, \
-qml-module-qtquick-controls2, \
-qml-module-qt-labs-settings, \
-qml-module-qtquick-layouts"
+    "libqt6core6, libqt6gui6, libqt6qml6, libqt6quick6, libqt6network6, libqt6websockets6, qml6-module-qtquick-controls, qml6-module-qtquick-layouts, qml6-module-qt-labs-settings"
 )
 
 set(CPACK_DEBIAN_PACKAGE_SECTION    "utils")

@@ -23,8 +23,8 @@ NexusQt 是 [Nexus](https://github.com/SuoNam/Nexus) 系统的客户端实现版
 以 Debian/Ubuntu 系统为例，需要安装以下依赖：
 ```bash
 sudo apt update
-sudo apt install build-essential cmake qt5-qmake qtbase5-dev qtdeclarative5-dev libqt5websockets5-dev libqt5serialport5-dev
-sudo apt install qml-module-qtquick2 qml-module-qtquick-controls2 qml-module-qt-labs-settings qml-module-qtquick-layouts
+sudo apt install build-essential cmake qt6-base-dev qt6-declarative-dev libqt6websockets6-dev libqt6serialport6-dev
+sudo apt install qml6-module-qtquick-controls qml6-module-qt-labs-settings qml6-module-qtquick-layouts
 ```
 
 ### 构建步骤

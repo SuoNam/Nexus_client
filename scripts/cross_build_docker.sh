@@ -48,10 +48,10 @@ docker run --rm \
         apt-get update -qq
         apt-get install -y --no-install-recommends \
             cmake g++ \
-            qtbase5-dev qtdeclarative5-dev \
-            libqt5websockets5-dev libqt5serialport5-dev \
-            qml-module-qtquick2 qml-module-qtquick-controls2 \
-            qml-module-qt-labs-settings qml-module-qtquick-layouts \
+            qt6-base-dev qt6-declarative-dev \
+            libqt6websockets6-dev libqt6serialport6-dev \
+            qml6-module-qtquick-controls qml6-module-qt-labs-settings \
+            qml6-module-qtquick-layouts \
             dpkg-dev 2>&1 | tail -5
 
         echo "==> 配置..."
