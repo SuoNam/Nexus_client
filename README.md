@@ -44,12 +44,21 @@ make -j$(nproc)
 ./NexusQt --fullscreen
 ```
 
-### 打包 (DEB)
-如需打包成 Debian 安装包：
+### 打包 (DEB) 与交叉编译
+本项目提供了便捷的打包与跨平台编译支持：
+
+**本地打包：**
 ```bash
 cd build
 cpack -G DEB
 ```
+
+**Docker 交叉编译 (ARM64)：**
+如果需要在 x86 主机上为 ARM64 架构（如 RK3528）直接编译并打包，可以使用项目中提供的 Docker 交叉编译脚本：
+```bash
+./scripts/cross_build_docker.sh
+```
+该脚本将会在干净的 Docker 环境中完成编译打包，最终的 `.deb` 产物会生成在 `build/packages/` 目录下。直接将其传输到目标设备的 Debian/Ubuntu 环境中，通过 `sudo apt install ./<package>.deb` 即可一键安装并自动配置好环境。
 
 ## 📂 项目结构
 - `src/`：C++ 核心代码，包含系统监控、天气获取、唤醒逻辑的模型。
