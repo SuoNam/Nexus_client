@@ -1,6 +1,6 @@
 # NexusQt
 
-NexusQt 是 [Nexus](https://github.com/SuoNam/Nexus) 系统的客户端实现版本。它是一个基于 Qt5/QML 开发的系统监控大屏应用，专为 RK3528 等 ARM64 嵌入式 Linux 盒子设计，提供炫酷的 UI 界面和本地化数据采集功能。
+NexusQt 是 [Nexus](https://github.com/SuoNam/Nexus) 系统的客户端实现版本。它是一个基于 Qt6/QML 开发的系统监控大屏应用，专为 RK3528 等 ARM64 嵌入式 Linux 盒子设计，提供炫酷的 UI 界面和本地化数据采集功能。
 
 ## ✨ 特性
 
@@ -13,7 +13,7 @@ NexusQt 是 [Nexus](https://github.com/SuoNam/Nexus) 系统的客户端实现版
 
 ## 🛠 技术栈
 
-- **C++17 & Qt 5.15**
+- **C++17 & Qt 6.3**
 - **Qt 模块**：Core, Gui, Quick, Network, WebSockets, SerialPort (可选)
 - **构建系统**：CMake
 
