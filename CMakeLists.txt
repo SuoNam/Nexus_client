@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(NexusQt VERSION 1.0.0 LANGUAGES CXX)
+project(NexusQt VERSION 1.0.2 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -25,10 +25,12 @@ add_executable(NexusQt
     src/SystemMonitor.cpp
     src/WeatherModel.cpp
     src/WakeClient.cpp
+    src/CalendarModel.cpp
     ${APP_RESOURCES}
 )
 
 target_include_directories(NexusQt PRIVATE src)
+target_compile_definitions(NexusQt PRIVATE NEXUS_VERSION="${PROJECT_VERSION}")
 
 target_link_libraries(NexusQt PRIVATE
     Qt5::Core Qt5::Gui Qt5::Quick Qt5::Network Qt5::WebSockets
@@ -90,6 +92,9 @@ qml-module-qtquick-layouts"
 )
 
 set(CPACK_DEBIAN_PACKAGE_SECTION    "utils")
+if (Qt5SerialPort_FOUND)
+    string(APPEND CPACK_DEBIAN_PACKAGE_DEPENDS ", libqt5serialport5 (>= 5.12)")
+endif()
 set(CPACK_DEBIAN_PACKAGE_PRIORITY   "optional")
 
 # 安装后脚本：更新桌面数据库

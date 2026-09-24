@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file>data/calendar-2026.json</file>
         <file>qml/main.qml</file>
         <file>qml/pages/Page1.qml</file>
         <file>qml/pages/Page2.qml</file>

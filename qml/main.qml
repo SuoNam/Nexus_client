@@ -6,7 +6,7 @@ import "components"
 
 Window {
     id: root
-    title: "Nexus"
+    title: "Nexus v" + Qt.application.version
     color: "#05070b"
 
     // 开发：窗口模式；嵌入式运行时通过 NEXUS_FULLSCREEN=1 全屏

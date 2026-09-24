@@ -1,6 +1,8 @@
 # NexusQt
 
-NexusQt 是 [Nexus](https://github.com/SuoNam/Nexus) 系统的客户端实现版本。它是一个基于 Qt6/QML 开发的系统监控大屏应用，专为 RK3528 等 ARM64 嵌入式 Linux 盒子设计，提供炫酷的 UI 界面和本地化数据采集功能。
+NexusQt 是 [Nexus 主仓库](https://github.com/SuoNam/Nexus) 的原生客户端，当前版本为 **v1.0.2**。它是一个基于 Qt 5.15/QML 开发的系统监控大屏应用，专为 RK3528 等 ARM64 嵌入式 Linux 盒子设计，提供大屏界面和本地数据采集功能。项目总览、Web 仪表盘和配套后端请查看 [Nexus](https://github.com/SuoNam/Nexus)。
+
+本版本修复了倒计时删除后重启恢复的问题：增删操作立即写入并同步配置，删除全部倒计时后保留空列表。完整变更见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## ✨ 特性
 
@@ -8,12 +10,14 @@ NexusQt 是 [Nexus](https://github.com/SuoNam/Nexus) 系统的客户端实现版
 - **🌤 天气预报 (WeatherModel)**：直接调用和集成 QWeather API，实时显示天气状况。
 - **🔌 串口唤醒 (WakeClient)**：支持通过串口发送信号唤醒目标设备。若未启用串口模块，则提供 `QProcess` 兜底方案。
 - **🎨 现代化 UI**：采用 Qt Quick (QML) 构建，支持触摸滑动、键盘控制、并自带流畅的页面切换动画和深色模式视觉效果。
-- **⚡ 纯本地运行**：各项核心功能均在客户端本地采集并计算，不强依赖外部服务器（天气 API 除外）。
+- **日期与节假日**：按 IP 所在地区匹配时区及公共假日，显示日期、星期、工作日、周末、节假日或中国调休补班；内置日历覆盖 2026 年。
+- **自定义倒计时**：支持增删与持久化保存，重启后保留修改。
+- **⚡ 本地运行**：系统监控及日历计算在设备本地完成，不依赖 Nexus 后端；天气与 IP 定位需要联网。
 - **📦 便捷打包**：集成了 CPack，可以一键打包为 `.deb` 格式，方便在 Debian/Ubuntu ARM64 系统上分发安装。
 
 ## 🛠 技术栈
 
-- **C++17 & Qt 6.3**
+- **C++17 & Qt 5.15**
 - **Qt 模块**：Core, Gui, Quick, Network, WebSockets, SerialPort (可选)
 - **构建系统**：CMake
 
@@ -23,8 +27,8 @@ NexusQt 是 [Nexus](https://github.com/SuoNam/Nexus) 系统的客户端实现版
 以 Debian/Ubuntu 系统为例，需要安装以下依赖：
 ```bash
 sudo apt update
-sudo apt install build-essential cmake qt6-base-dev qt6-declarative-dev libqt6websockets6-dev libqt6serialport6-dev
-sudo apt install qml6-module-qtquick-controls qml6-module-qt-labs-settings qml6-module-qtquick-layouts
+sudo apt install build-essential cmake qtbase5-dev qtdeclarative5-dev libqt5websockets5-dev libqt5serialport5-dev
+sudo apt install qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-controls2 qml-module-qt-labs-settings qml-module-qtquick-layouts
 ```
 
 ### 构建步骤
@@ -65,6 +69,20 @@ cpack -G DEB
 - `qml/`：QML 界面代码，包含主窗口布局、页面 (pages) 和组件 (components)。
 - `packaging/`：Linux 桌面快捷方式、图标及 Debian 安装脚本。
 - `resources.qrc`：Qt 资源文件。
+- `data/`：内置的 2026 年公共假日日历；升级年份需重新生成并核验调休安排。
+- `tests/`：倒计时持久化回归测试。
+
+## 倒计时持久化测试
+
+在安装上述 Qt 构建依赖的 Linux 环境中，于仓库根目录执行：
+
+```bash
+sh tests/countdown_persistence.sh "$PWD"
+```
+
+测试使用独立的临时配置目录，覆盖新增、真实按钮删除、全部删除，以及立即终止进程后的多次重启，不修改用户已有倒计时。
+
+倒计时保存在当前运行用户的 Qt 配置中，Linux 默认路径为 `~/.config/Nexus/Nexus.conf`。请使用同一用户启动应用；不同系统用户各自保存配置。
 
 ## 🤝 贡献与反馈
 本项目为 [Nexus](https://github.com/SuoNam/Nexus) 的一部分。欢迎提交 Issue 与 Pull Request。

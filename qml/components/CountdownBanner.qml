@@ -13,16 +13,40 @@ Rectangle {
     Settings {
         id: store
         category: "Countdowns"
-        property string items: JSON.stringify([
+    }
+
+    // Defaults apply only when the key is absent; an explicitly saved [] stays empty.
+    property var defaultItems: [
             { id:"kaoyan", label:"距离 2027 考研初试还有",
               target:"2026-12-19T08:30:00", suffix:"考试已开始！" },
             { id:"cet6", label:"距离 英语六级 (6/13) 还有",
               target:"2026-06-13T09:00:00", suffix:"六级已开始" }
-        ])
+        ]
+
+    property var cdItems: []
+    property var texts:   []
+
+    Component.onCompleted: {
+        var saved = store.value("items", null)
+        try {
+            var loaded = saved === null ? defaultItems : JSON.parse(saved)
+            if (!Array.isArray(loaded)) throw new Error("Invalid countdown list")
+            cdItems = loaded
+        } catch (error) {
+            console.warn("无法读取倒计时设置：", error)
+            cdItems = []
+        }
+        recalc()
     }
 
-    property var cdItems: JSON.parse(store.items)
-    property var texts:   []
+    function saveItems(items) {
+        // Explicit write + sync avoids Settings' deferred property-save timer.
+        // Persist before changing the model, which may destroy the clicked delegate.
+        store.setValue("items", JSON.stringify(items))
+        store.sync()
+        cdItems = items
+        recalc()
+    }
 
     function recalc() {
         var now = new Date()
@@ -88,9 +112,7 @@ Rectangle {
                         onClicked: {
                             var arr = root.cdItems.slice()
                             arr.splice(index, 1)
-                            root.cdItems = arr
-                            store.items  = JSON.stringify(arr)
-                            root.recalc()
+                            root.saveItems(arr)
                         }
                     }
                 }
@@ -127,9 +149,7 @@ Rectangle {
             var arr = root.cdItems.slice()
             arr.push({ id: Date.now().toString(),
                        label: label, target: target, suffix: suffix })
-            root.cdItems = arr
-            store.items  = JSON.stringify(arr)
-            root.recalc()
+            root.saveItems(arr)
         }
     }
 }
